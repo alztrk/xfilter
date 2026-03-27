@@ -1,0 +1,17 @@
+# OS files
+.DS_Store
+Thumbs.db
+Icon
+
+# Development
+node_modules/
+dist/
+build/
+.env
+.project
+.vscode/
+
+# Project specifics
+*.zip
+*.crx
+*.pem

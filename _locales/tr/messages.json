@@ -1,0 +1,47 @@
+{
+  "extName": {
+    "message": "XFilter"
+  },
+  "extDescription": {
+    "message": "X.com'da onaylı hesapları filtrele"
+  },
+  "title": {
+    "message": "XFilter"
+  },
+  "subtitle": {
+    "message": "Onaylı Hesapları Filtrele"
+  },
+  "enableFilter": {
+    "message": "Filtreyi Etkinleştir"
+  },
+  "excludeFollowing": {
+    "message": "Takip ettiklerimi filtreleme"
+  },
+  "whitelistLabel": {
+    "message": "Beyaz liste (her zaman göster):"
+  },
+  "wordFilterLabel": {
+    "message": "Bu kelimeleri içeren tweetleri gizle:"
+  },
+  "language": {
+    "message": "Dil"
+  },
+  "auto": {
+    "message": "Otomatik"
+  },
+  "statsFiltered": {
+    "message": "Filtrelenen:"
+  },
+  "filteredUsers": {
+    "message": "Filtrelenen hesaplar:"
+  },
+  "clearFiltered": {
+    "message": "Listeyi temizle"
+  },
+  "clearCache": {
+    "message": "Önbelleği temizle"
+  },
+  "footer": {
+    "message": "Ayarlar otomatik kaydedilir"
+  }
+}

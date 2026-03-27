@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XFilter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div id="siteNotice" class="site-notice" style="display: none;">
+      Bu eklenti yalnizca x.com uzerinde calisir.
+    </div>
+    <header>
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="#fff"/>
+        </svg>
+        <div class="title-group">
+          <h1 data-i18n="title">XFilter</h1>
+          <span class="subtitle" data-i18n="subtitle">Filter Verified Accounts</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="toggle-section">
+        <label class="toggle">
+          <input type="checkbox" id="enableFilter">
+          <span class="toggle-slider"></span>
+          <span class="toggle-label" data-i18n="enableFilter">Enable Filter</span>
+        </label>
+      </div>
+
+      <div class="toggle-section">
+        <label class="toggle">
+          <input type="checkbox" id="hideCompletely">
+          <span class="toggle-slider"></span>
+          <span class="toggle-label" data-i18n="hideCompletely">Hide completely instead of collapsing</span>
+        </label>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <p class="section-label" data-i18n="sidebarSectionsLabel">Hide sidebar sections:</p>
+
+        <div class="toggle-section">
+          <label class="toggle">
+            <input type="checkbox" id="hidePremiumPromo">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="hidePremiumPromo">Hide Premium promo</span>
+          </label>
+        </div>
+
+        <div class="toggle-section">
+          <label class="toggle">
+            <input type="checkbox" id="hideLiveSection">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="hideLiveSection">Hide Live section</span>
+          </label>
+        </div>
+
+        <div class="toggle-section">
+          <label class="toggle">
+            <input type="checkbox" id="hideTrendsSection">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="hideTrendsSection">Hide Trends section</span>
+          </label>
+        </div>
+
+        <div class="toggle-section">
+          <label class="toggle">
+            <input type="checkbox" id="hideWhoToFollowSection">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="hideWhoToFollowSection">Hide Who to follow section</span>
+          </label>
+        </div>
+
+        <div class="toggle-section">
+          <label class="toggle">
+            <input type="checkbox" id="hideGrokNav">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="hideGrokNav">Hide Grok navigation</span>
+          </label>
+        </div>
+
+        <div class="toggle-section">
+          <label class="toggle">
+            <input type="checkbox" id="hidePremiumNav">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="hidePremiumNav">Hide Premium navigation</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <p class="section-label" data-i18n="whitelistLabel">Whitelist (always show):</p>
+        <div class="input-row">
+          <input type="text" id="whitelistInput" placeholder="@username" />
+          <button id="addWhitelist" class="add-btn">+</button>
+        </div>
+        <div id="whitelistTags" class="tags"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <p class="section-label" data-i18n="blacklistLabel">Blacklist (always hide):</p>
+        <div class="input-row">
+          <input type="text" id="blacklistInput" placeholder="@username" />
+          <button id="addBlacklist" class="add-btn add-btn-danger">+</button>
+        </div>
+        <div id="blacklistTags" class="tags"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <p class="section-label" data-i18n="wordFilterLabel">Hide tweets containing:</p>
+        <div class="input-row">
+          <input type="text" id="wordFilterInput" placeholder="word or phrase" />
+          <button id="addWordFilter" class="add-btn add-btn-orange">+</button>
+        </div>
+        <div class="toggle-section compact-toggle">
+          <label class="toggle">
+            <input type="checkbox" id="wordWholeMatch">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="wordWholeMatch">Match whole word only</span>
+          </label>
+        </div>
+        <div class="toggle-section compact-toggle">
+          <label class="toggle">
+            <input type="checkbox" id="wordCaseSensitive">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label" data-i18n="wordCaseSensitive">Case sensitive</span>
+          </label>
+        </div>
+        <div id="wordFilterTags" class="tags"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="toggle-section">
+        <label class="toggle">
+          <input type="checkbox" id="performanceMode">
+          <span class="toggle-slider"></span>
+          <span class="toggle-label" data-i18n="performanceMode">Performance mode</span>
+        </label>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label" data-i18n="statsFiltered">Filtered:</span>
+          <span id="filteredCount" class="count">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label" data-i18n="statsToday">Today:</span>
+          <span id="dailyFilteredCount" class="count">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label" data-i18n="statsAccounts">Accounts:</span>
+          <span id="filteredAccountsCount" class="count">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label" data-i18n="statsResetIn">Reset in:</span>
+          <span id="resetCountdown" class="count muted-count">--:--</span>
+        </div>
+      </div>
+
+      <div class="filtered-users-section" id="filteredUsersSection" style="display: none;">
+        <div class="filtered-users-header">
+          <span data-i18n="filteredUsers">Filtered accounts:</span>
+          <button id="toggleUsersList" class="toggle-list-btn">▼</button>
+        </div>
+        <div id="filteredUsersList" class="filtered-users-list"></div>
+      </div>
+
+      <div class="buttons-row">
+        <button id="clearFiltered" class="action-btn" data-i18n="clearFiltered">Clear list</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="language-section">
+        <label class="language-label" data-i18n="language">Language</label>
+        <select id="languageSelect">
+          <option value="auto" data-i18n-option="auto">Auto</option>
+          <option value="en">English</option>
+          <option value="tr">Türkçe</option>
+        </select>
+      </div>
+    </main>
+
+    <footer>
+      <p data-i18n="footer">Settings saved automatically</p>
+    </footer>
+  </div>
+  <div id="toast" class="toast" style="display: none;"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "extName": {
+    "message": "XFilter"
+  },
+  "extDescription": {
+    "message": "Filter verified accounts on X.com"
+  },
+  "title": {
+    "message": "XFilter"
+  },
+  "subtitle": {
+    "message": "Filter Verified Accounts"
+  },
+  "enableFilter": {
+    "message": "Enable Filter"
+  },
+  "excludeFollowing": {
+    "message": "Don't filter accounts I follow"
+  },
+  "whitelistLabel": {
+    "message": "Whitelist (always show):"
+  },
+  "wordFilterLabel": {
+    "message": "Hide tweets containing:"
+  },
+  "language": {
+    "message": "Language"
+  },
+  "auto": {
+    "message": "Auto"
+  },
+  "statsFiltered": {
+    "message": "Filtered:"
+  },
+  "filteredUsers": {
+    "message": "Filtered accounts:"
+  },
+  "clearFiltered": {
+    "message": "Clear list"
+  },
+  "clearCache": {
+    "message": "Clear cache"
+  },
+  "footer": {
+    "message": "Settings saved automatically"
+  }
+}
