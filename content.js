@@ -432,12 +432,20 @@
     return overlay;
   }
 
+  function isViewportStableForCollapse(rect) {
+    const buffer = 96;
+    return rect.bottom <= -buffer || rect.top >= window.innerHeight + buffer;
+  }
+
   // Collapse element in place with overlay
   function hideElement(el, username, reason = 'verified') {
-    if (!el || el.getAttribute(HIDDEN_META.hidden) === 'true') return;
+    if (!el || el.getAttribute(HIDDEN_META.hidden) === 'true') return false;
 
     const rect = el.getBoundingClientRect();
+    if (!isViewportStableForCollapse(rect)) return false;
+
     const originalHeight = Math.ceil(rect.height);
+    const isFullyAboveViewport = rect.bottom <= 0;
     const itemKey = el.getAttribute(HIDDEN_META.itemKey) || getItemKey(el, username);
     const originalStyle = el.getAttribute('style') || '';
     el.setAttribute(HIDDEN_META.originalStyle, originalStyle);
@@ -456,11 +464,11 @@
 
     if (settings.hideCompletely) {
       el.style.display = 'none';
-      if (rect.top < 0 && originalHeight > 0) {
+      if (isFullyAboveViewport && originalHeight > 0) {
         window.scrollBy(0, -originalHeight);
       }
       syncFilteredState();
-      return;
+      return true;
     }
 
     el.style.overflow = 'hidden';
@@ -475,11 +483,12 @@
 
     const collapsedHeight = Math.ceil(el.getBoundingClientRect().height);
     const heightDiff = Math.max(0, originalHeight - collapsedHeight);
-    if (rect.top < 0 && heightDiff > 0) {
+    if (isFullyAboveViewport && heightDiff > 0) {
       window.scrollBy(0, -heightDiff);
     }
 
     syncFilteredState();
+    return true;
   }
 
   // Show all hidden elements
@@ -505,14 +514,18 @@
 
     // Word filter (applies to all)
     if (containsFilteredWord(tweet)) {
-      incrementFilteredCount();
-      hideElement(container, username, 'word');
+      if (hideElement(container, username, 'word')) {
+        incrementFilteredCount();
+        saveFilteredData();
+      }
       return;
     }
 
     if (username && isBlacklisted(username)) {
-      incrementFilteredCount();
-      hideElement(container, username, 'blacklist');
+      if (hideElement(container, username, 'blacklist')) {
+        incrementFilteredCount();
+        saveFilteredData();
+      }
       return;
     }
 
@@ -524,8 +537,10 @@
 
     // Check if following
     // Hide and track
-    incrementFilteredCount();
-    hideElement(container, username, 'verified');
+    if (hideElement(container, username, 'verified')) {
+      incrementFilteredCount();
+      saveFilteredData();
+    }
   }
 
   async function processUserCell(cell) {
@@ -535,15 +550,19 @@
     if (cell.getAttribute(HIDDEN_META.opened) === 'true' || manuallyOpenedItems.has(itemKey)) return;
     if (!username) return;
     if (isBlacklisted(username)) {
-      incrementFilteredCount();
-      hideElement(cell, username, 'blacklist');
+      if (hideElement(cell, username, 'blacklist')) {
+        incrementFilteredCount();
+        saveFilteredData();
+      }
       return;
     }
     if (!hasVerifiedBadge(cell, username)) return;
     if (isWhitelisted(username)) return;
 
-    incrementFilteredCount();
-    hideElement(cell, username, 'verified');
+    if (hideElement(cell, username, 'verified')) {
+      incrementFilteredCount();
+      saveFilteredData();
+    }
   }
 
   // Scan for tweets

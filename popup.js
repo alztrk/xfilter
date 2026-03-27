@@ -116,6 +116,14 @@ let currentLang = 'en';
 let toastTimeout = null;
 let lastUndo = null;
 
+function getTodayKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 // Default settings
 const defaultSettings = {
   enabled: true,
@@ -291,7 +299,13 @@ async function removeItem(type, value) {
 // Load settings
 async function loadSettings() {
   const settings = await chrome.storage.sync.get(defaultSettings);
-  const local = await chrome.storage.local.get({ filteredUsers: [], filteredCount: 0, dailyFilteredCount: 0 });
+  const local = await chrome.storage.local.get({
+    filteredUsers: [],
+    filteredCount: 0,
+    dailyFilteredCount: 0,
+    dailyFilteredDate: getTodayKey()
+  });
+  const dailyCount = local.dailyFilteredDate === getTodayKey() ? (local.dailyFilteredCount || 0) : 0;
   
   enableFilterToggle.checked = settings.enabled;
   hideCompletelyToggle.checked = settings.hideCompletely;
@@ -311,7 +325,7 @@ async function loadSettings() {
   languageSelect.value = settings.language;
   
   filteredCountEl.textContent = local.filteredCount || 0;
-  dailyFilteredCountEl.textContent = local.dailyFilteredCount || 0;
+  dailyFilteredCountEl.textContent = dailyCount;
   resetCountdownEl.textContent = getResetCountdownText();
   
   renderTags(whitelistTagsEl, settings.whitelist || [], 'whitelist');
@@ -506,8 +520,14 @@ toggleUsersListBtn.addEventListener('click', async () => {
 
 // Clear filtered
 clearFilteredBtn.addEventListener('click', async () => {
-  await chrome.storage.local.set({ filteredUsers: [], filteredCount: 0 });
+  await chrome.storage.local.set({
+    filteredUsers: [],
+    filteredCount: 0,
+    dailyFilteredCount: 0,
+    dailyFilteredDate: getTodayKey()
+  });
   filteredCountEl.textContent = '0';
+  dailyFilteredCountEl.textContent = '0';
   filteredUsersSection.style.display = 'none';
   
   chrome.tabs.query({ url: ['*://x.com/*'] }, tabs => {
