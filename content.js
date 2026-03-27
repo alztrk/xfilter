@@ -313,7 +313,7 @@
     }
 
     if (settings.hideTrendsSection) {
-      sidebar.querySelectorAll('section[aria-labelledby="accessible-list-2"]').forEach(section => {
+      sidebar.querySelectorAll('section[aria-labelledby="accessible-list-0"][role="region"]').forEach(section => {
         hideStaticElement(section.parentElement);
       });
     }
