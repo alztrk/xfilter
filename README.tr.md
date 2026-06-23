@@ -27,4 +27,4 @@ XFilter, X (eski adıyla Twitter) üzerindeki onaylı hesapları filtrelemenize 
 Bu proje MIT Lisansı altında açık kaynak olarak sunulmaktadır.
 
 ---
-agnes0912491 tarafından geliştirildi.
+alztrk tarafından geliştirildi.
